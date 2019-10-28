@@ -17,25 +17,53 @@ const database = firebase.database();
 // ref --> used for grouping data i.e ref for users
 // if nothing is parsed in data is stored in the root directory
 
-database
-	.ref()
-	.set({
-		username: "Mwendwa Kiting'u",
-		age: 26,
-		job: { title: 'software developer', conpany: 'google' },
-		stressLevel: 4,
-		location: {
-			city: 'Nairobi',
-			country: 'USA',
-		},
-	})
-	.then(() => console.log('data sent'))
-	.catch((error) => console.log('something went wrong', error));
+// database
+// 	.ref()
+// 	.set({
+// 		username: "Mwendwa Kiting'u",
+// 		age: 26,
+// 		job: { title: 'software developer', conpany: 'google' },
+// 		stressLevel: 4,
+// 		location: {
+// 			city: 'Nairobi',
+// 			country: 'USA',
+// 		},
+// 	})
+// 	.then(() => console.log('data sent'))
+// 	.catch((error) => console.log('something went wrong', error));
 
-// update data --> multiple data
+// fetch data once without keeping track of changes
 
-database.ref().update({
-	'job/company': 'Amazon',
-	'location/city': 'Seattle',
-	stressLevel: 9,
+// database
+// 	.ref('location')
+// 	.once('value')
+// 	.then((snapshot) => {
+// 		const value = snapshot.val();
+// 		console.log(value);
+// 	})
+// 	.catch((e) => {
+// 		console.log(e);
+// 	});
+
+// fetch data keeping track of changes
+// uses callback fn instead of promises
+database.ref('location').on(
+	'value',
+	(snapshot) => {
+		const value = snapshot.val();
+		console.log(value);
+	},
+	(e) => {
+		console.log('something went wrong', e);
+	}
+);
+// to unsubscribe we use ref().off()
+// one can unsubscribe a single item rel().off(subscribe_function)
+// e.g
+const onValueChange = (snapshot) => {
+	const value = snapshot.val();
+	console.log(value);
+};
+database.ref('location').of(onValueChange, (e) => {
+	console.log('something went wrong', e);
 });
