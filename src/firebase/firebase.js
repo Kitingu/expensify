@@ -20,54 +20,22 @@ const database = firebase.database();
 database
 	.ref()
 	.set({
-		username: 'gathee',
+		username: "Mwendwa Kiting'u",
 		age: 26,
-		isSingle: true,
+		job: { title: 'software developer', conpany: 'google' },
+		stressLevel: 4,
 		location: {
 			city: 'Nairobi',
-			country: 'Kenya',
+			country: 'USA',
 		},
 	})
 	.then(() => console.log('data sent'))
 	.catch((error) => console.log('something went wrong', error));
 
-// update an existing field
-database.ref('username').set('asdf');
+// update data --> multiple data
 
-// update nested field
-database.ref('location/city').set('Mombasa');
-
-database
-	.ref('attributes')
-	.set({
-		height: '1.7m',
-		weight: '60kg',
-	})
-	.then(() => {
-		console.log('it worked');
-	})
-	.catch((error) => {
-		console.log(error, 'semething went wrong');
-	});
-
-// remove a field using set
-database
-	.ref('isSingle')
-	.set(null)
-	.then(() => {
-		console.log('it worked');
-	})
-	.catch((e) => {
-		console.log('something went wrong', e);
-	});
-// delete from database
-
-// database
-// 	.ref('isSingle')
-// 	.remove()
-// 	.then(() => {
-// 		console.log('field removed successfully');
-// 	})
-// 	.catch((e) => {
-// 		'something went wrong', e;
-// 	});
+database.ref().update({
+	'job/company': 'Amazon',
+	'location/city': 'Seattle',
+	stressLevel: 9,
+});
