@@ -13,7 +13,7 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const database = firebase.database;
+const database = firebase.database();
 // ref --> used for grouping data i.e ref for users
 // if nothing is parsed in data is stored in the root directory
 
@@ -27,4 +27,13 @@ database.ref().set({
 	},
 });
 
-database.ref().set('asdf');
+// update an existing field
+database.ref('username').set('asdf');
+
+// update nested field
+database.ref('location/city').set('Mombasa');
+
+database.ref('attributes').set({
+	height: '1.7m',
+	weight: '60kg',
+});
