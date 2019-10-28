@@ -49,3 +49,25 @@ database
 	.catch((error) => {
 		console.log(error, 'semething went wrong');
 	});
+
+// remove a field using set
+database
+	.ref('isSingle')
+	.set(null)
+	.then(() => {
+		console.log('it worked');
+	})
+	.catch((e) => {
+		console.log('something went wrong', e);
+	});
+// delete from database
+
+// database
+// 	.ref('isSingle')
+// 	.remove()
+// 	.then(() => {
+// 		console.log('field removed successfully');
+// 	})
+// 	.catch((e) => {
+// 		'something went wrong', e;
+// 	});
