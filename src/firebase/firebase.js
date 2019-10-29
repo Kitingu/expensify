@@ -37,36 +37,54 @@ const expense2 = {
 	amount: 1000,
 	createdAt: 0,
 };
-database.ref('expenses').push(expenses1);
-database.ref('expenses').push(expense2);
-// };
-// const notes = [
-// 	{
-// 		id: 12,
-// 		title: 'first match',
-// 		body: 'this is the body',
-// 	},
-// ];
-// database.ref().set(notes);
-// ref --> used for grouping data i.e ref for users
-// if nothing is parsed in data is stored in the root directory
+
+// child_removed --> refresh when item from firebase aray is removed
+database.ref('expenses').on('child_removed', (snapshot) => {
+	console.log(snapshot.key, snapshot.val());
+});
+
+// child changed --> refresh when a child of the firebase array is changed
+database.ref('expenses').on('child_changed', (snapshot) => {
+	console.log(snapshot.key, snapshot.val());
+});
+
+// child changed --> refresh when a child is added to the firebase array
+database.ref('expenses').on('child_added', (snapshot) => {
+	console.log(snapshot.key, snapshot.val());
+});
+
+// get data from array ...refreshing
+database.ref('expenses').on('value', (snapshot) => {
+	const expenses = [];
+	snapshot.forEach((childSnapshot) => {
+		expenses.push({
+			id: childSnapshot.key,
+			...childSnapshot.val(),
+		});
+	});
+	console.log(expenses);
+});
 
 // database
-// 	.ref()
-// 	.set({
-// 		username: "Mwendwa Kiting'u",
-// 		age: 26,
-// 		job: { title: 'software developer', conpany: 'google' },
-// 		stressLevel: 4,
-// 		location: {
-// 			city: 'Nairobi',
-// 			country: 'USA',
-// 		},
-// 	})
-// 	.then(() => console.log('data sent'))
-// 	.catch((error) => console.log('something went wrong', error));
+// 	.ref('expenses')
+// 	.once('value')
+// 	.then((snapshot) => {
+// 		// console.log(snapshot.val());
+// 		const expenses = [];
+// 		snapshot.forEach((childSnapshot) => {
+// 			expenses.push({
+// 				id: childSnapshot.key,
+// 				...snapshot.val(),
+// 			});
+// 		});
+// 		// return an array of objects
+// 		console.log(expenses);
+// 	});
 
-// fetch data once without keeping track of changes
+// fetching from db of arrays demo
+
+// database.ref('expenses').push(expenses1);
+// database.ref('expenses').push(expense2);
 
 // database
 // 	.ref('location')
