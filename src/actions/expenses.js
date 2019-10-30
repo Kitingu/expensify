@@ -16,7 +16,7 @@ export const startAddExpense = (expenseData = {}) => {
 		} = expenseData;
 		// create an obj that will be pushed to db
 		const expense = { description, note, amount, createdAt };
-		database
+		return database
 			.ref('expenses')
 			.push(expense)
 			.then((ref) => {
